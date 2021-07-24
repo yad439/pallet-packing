@@ -1,15 +1,15 @@
 class LinkedList:
     class Node:
-        def __init__(self, data, prev_node, next_node):
+        def __init__(self, data, prev_node: LinkedList.Node, next_node: LinkedList.Node):
             self.data = data
             self.prev = prev_node
             self.next = next_node
 
     class Iterator:
-        def __init__(self, node):
+        def __init__(self, node: LinkedList.Node):
             self.node = node
 
-        def __next__(self):
+        def __next__(self) -> LinkedList.Node:
             if self.node is None:
                 raise StopIteration
             node = self.node
@@ -20,7 +20,7 @@ class LinkedList:
         self.first = None
         self.last = None
 
-    def __iter__(self):
+    def __iter__(self) -> LinkedList.Iterator:
         return LinkedList.Iterator(self.first)
 
     def is_empty(self):
@@ -35,7 +35,7 @@ class LinkedList:
             self.last.next = new
             self.last = new
 
-    def insert(self, node, elem):
+    def insert(self, node: LinkedList.Node, elem):
         nxt = node.next
         new = LinkedList.Node(elem, node, nxt)
         node.next = new
@@ -44,7 +44,7 @@ class LinkedList:
         else:
             self.last = new
 
-    def remove(self, node):
+    def remove(self, node: LinkedList.Node) -> LinkedList.Node:
         if node is None:
             return None
         next_node = node.next
