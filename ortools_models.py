@@ -1,7 +1,7 @@
 from ortools.linear_solver import pywraplp
 
 
-def taskOneModel(H, W, items, *, limit=0):
+def task_one_model(pallet_width, pallet_height, items, *, limit=0):
     solver = pywraplp.Solver.CreateSolver('SCIP')
     B = sum(i[0] + i[1] for i in items)
     n = len(items)
@@ -16,15 +16,15 @@ def taskOneModel(H, W, items, *, limit=0):
     z = [solver.BoolVar(f'z{i}') for i in range(n)]
 
     for i in range(n):
-        solver.Add(x[i] + w[i] * (1 - r[i]) + h[i] * r[i] <= W + (1 - z[i]) * B)
-        solver.Add(y[i] + h[i] * (1 - r[i]) + w[i] * r[i] <= H + (1 - z[i]) * B)
+        solver.Add(x[i] + w[i] * (1 - r[i]) + h[i] * r[i] <= pallet_width + (1 - z[i]) * B)
+        solver.Add(y[i] + h[i] * (1 - r[i]) + w[i] * r[i] <= pallet_height + (1 - z[i]) * B)
         for j in range(n):
             if i != j:
                 solver.Add(x[i] + w[i] * (1 - r[i]) + h[i] * r[i] <= x[j] + (1 - l[i][j]) * B)
                 solver.Add(y[i] + h[i] * (1 - r[i]) + w[i] * r[i] <= y[j] + (1 - b[i][j]) * B)
                 solver.Add(l[i][j] + l[j][i] + b[i][j] + b[j][i] >= 1)
 
-    solver.Minimize(H * W - sum(h[i] * w[i] * z[i] for i in range(n)))
+    solver.Minimize(pallet_height * pallet_width - sum(h[i] * w[i] * z[i] for i in range(n)))
 
     if limit != 0:
         solver.SetTimeLimit(limit)
@@ -41,7 +41,7 @@ def taskOneModel(H, W, items, *, limit=0):
     return status, solver.Objective().Value(), solver.Objective().BestBound(), list(zip(zv, xv, yv, rv))
 
 
-def taskTwoModel(H, W, items, xtol, ytol, *, limit=0):
+def task_two_model(pallet_width, pallet_height, items, x_tolerance, y_tolerance, *, limit=0):
     solver = pywraplp.Solver.CreateSolver('SCIP')
     B = sum(i[0] + i[1] for i in items)
     n = len(items)
@@ -58,8 +58,8 @@ def taskTwoModel(H, W, items, xtol, ytol, *, limit=0):
     cy = [solver.NumVar(0, solver.infinity(), f'y{i}') for i in range(n)]
 
     for i in range(n):
-        solver.Add(x[i] + w[i] * (1 - r[i]) + h[i] * r[i] <= W + (1 - z[i]) * B)
-        solver.Add(y[i] + h[i] * (1 - r[i]) + w[i] * r[i] <= H + (1 - z[i]) * B)
+        solver.Add(x[i] + w[i] * (1 - r[i]) + h[i] * r[i] <= pallet_width + (1 - z[i]) * B)
+        solver.Add(y[i] + h[i] * (1 - r[i]) + w[i] * r[i] <= pallet_height + (1 - z[i]) * B)
         solver.Add(cx[i] <= B * z[i])
         solver.Add(cy[i] <= B * z[i])
         solver.Add(cx[i] <= x[i])
@@ -71,12 +71,16 @@ def taskTwoModel(H, W, items, xtol, ytol, *, limit=0):
                 solver.Add(x[i] + w[i] * (1 - r[i]) + h[i] * r[i] <= x[j] + (1 - l[i][j]) * B)
                 solver.Add(y[i] + h[i] * (1 - r[i]) + w[i] * r[i] <= y[j] + (1 - b[i][j]) * B)
                 solver.Add(l[i][j] + l[j][i] + b[i][j] + b[j][i] >= 1)
-    solver.Add(sum(items[i][2] * cx[i] for i in range(n)) <= (W / 2 + xtol) * sum(items[i][2] * z[i] for i in range(n)))
-    solver.Add(sum(items[i][2] * cx[i] for i in range(n)) >= (W / 2 - xtol) * sum(items[i][2] * z[i] for i in range(n)))
-    solver.Add(sum(items[i][2] * cy[i] for i in range(n)) <= (W / 2 + ytol) * sum(items[i][2] * z[i] for i in range(n)))
-    solver.Add(sum(items[i][2] * cy[i] for i in range(n)) >= (W / 2 - ytol) * sum(items[i][2] * z[i] for i in range(n)))
+    solver.Add(sum(items[i][2] * cx[i] for i in range(n)) <= (pallet_width / 2 + x_tolerance) * sum(
+            items[i][2] * z[i] for i in range(n)))
+    solver.Add(sum(items[i][2] * cx[i] for i in range(n)) >= (pallet_width / 2 - x_tolerance) * sum(
+            items[i][2] * z[i] for i in range(n)))
+    solver.Add(sum(items[i][2] * cy[i] for i in range(n)) <= (pallet_width / 2 + y_tolerance) * sum(
+            items[i][2] * z[i] for i in range(n)))
+    solver.Add(sum(items[i][2] * cy[i] for i in range(n)) >= (pallet_width / 2 - y_tolerance) * sum(
+            items[i][2] * z[i] for i in range(n)))
 
-    solver.Minimize(H * W - sum(h[i] * w[i] * z[i] for i in range(n)))
+    solver.Minimize(pallet_height * pallet_width - sum(h[i] * w[i] * z[i] for i in range(n)))
 
     if limit != 0:
         solver.SetTimeLimit(limit)

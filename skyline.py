@@ -1,43 +1,45 @@
+from typing import List, Tuple, Union
+
 from structures import LinkedList
 
 
-def skylineDecode(H, W, items, permutation):
+def skyline_decode(pallet_width, pallet_height, items, permutation):
     skyline = LinkedList()
     skyline.add((0, 0))
 
-    itemsList = LinkedList()
+    items_list = LinkedList()
     for item in permutation:
-        itemsList.add((items[item][1], items[item][0], item))
-    results = [None for _ in range(len(items))]
+        items_list.add((items[item][1], items[item][0], item))
+    results: List[Union[None, Tuple[bool, int, int, bool]]] = [None for _ in range(len(items))]
     count = 0
 
-    while not itemsList.isEmpty():
+    while not items_list.is_empty():
         count += 1
         if count > 30:
             break
         gap = None
-        level = H + 1
+        level = pallet_height + 1
         for current in skyline:
             if current.data[0] < level:
                 level = current.data[0]
                 gap = current
 
-        if level == H:
+        if level == pallet_height:
             break
 
-        width = gap.next.data[1] - gap.data[1] if gap.next is not None else W - gap.data[1]
-        height1 = gap.prev.data[0] - gap.data[0] if gap.prev is not None else H - gap.data[0]
-        height2 = gap.next.data[0] - gap.data[0] if gap.next is not None else H - gap.data[0]
+        width = gap.next.data[1] - gap.data[1] if gap.next is not None else pallet_width - gap.data[1]
+        height1 = gap.prev.data[0] - gap.data[0] if gap.prev is not None else pallet_height - gap.data[0]
+        height2 = gap.next.data[0] - gap.data[0] if gap.next is not None else pallet_height - gap.data[0]
 
-        bestItem = None
+        best_item = None
         score = -1
-        for currentItem in itemsList:
-            if currentItem.data[0] <= H - gap.data[0] and currentItem.data[1] <= width:
-                curScore = int(currentItem.data[0] == height1) + int(currentItem.data[0] == height2) + int(
-                        currentItem.data[1] == width)
-                if curScore > score:
-                    score = curScore
-                    bestItem = currentItem
+        for current_item in items_list:
+            if current_item.data[0] <= pallet_height - gap.data[0] and current_item.data[1] <= width:
+                cur_score = int(current_item.data[0] == height1) + int(current_item.data[0] == height2) + int(
+                        current_item.data[1] == width)
+                if cur_score > score:
+                    score = cur_score
+                    best_item = current_item
 
         if score == -1:
             if height1 <= height2:
@@ -51,54 +53,54 @@ def skylineDecode(H, W, items, permutation):
             else:
                 if gap is not skyline.first:
                     prev = skyline.remove(gap)
-                    next = prev.next
-                    assert next is gap.next
-                    next.data = next.data[0], gap.data[1]
+                    next_point = prev.next
+                    assert next_point is gap.next
+                    next_point.data = next_point.data[0], gap.data[1]
                 else:
                     gap.data = gap.data[0] + height2, 0
                     skyline.remove(gap.next)
         elif score == 0:
-            results[bestItem.data[2]] = (True, gap.data[1], gap.data[0], False)
+            results[best_item.data[2]] = (True, gap.data[1], gap.data[0], False)
 
-            skyline.addAfter(gap, (gap.data[0], gap.data[1] + bestItem.data[1]))
-            gap.data = gap.data[0] + bestItem.data[0], gap.data[1]
+            skyline.insert(gap, (gap.data[0], gap.data[1] + best_item.data[1]))
+            gap.data = gap.data[0] + best_item.data[0], gap.data[1]
 
-            itemsList.remove(bestItem)
+            items_list.remove(best_item)
         elif score == 1:
-            if bestItem.data[0] == height1:
-                results[bestItem.data[2]] = (True, gap.data[1], gap.data[0], False)
-                gap.data = gap.data[0], gap.data[1] + bestItem.data[1]
-            elif bestItem.data[0] == height2:
-                next = gap.next
-                if next is not None:
-                    results[bestItem.data[2]] = (True, next.data[1] - bestItem.data[1], gap.data[0], False)
-                    next.data = next.data[0], next.data[1] - bestItem.data[1]
+            if best_item.data[0] == height1:
+                results[best_item.data[2]] = (True, gap.data[1], gap.data[0], False)
+                gap.data = gap.data[0], gap.data[1] + best_item.data[1]
+            elif best_item.data[0] == height2:
+                next_point = gap.next
+                if next_point is not None:
+                    results[best_item.data[2]] = (True, next_point.data[1] - best_item.data[1], gap.data[0], False)
+                    next_point.data = next_point.data[0], next_point.data[1] - best_item.data[1]
                 else:
-                    results[bestItem.data[2]] = (True, W - bestItem.data[1], gap.data[0], False)
-                    skyline.add((gap.data[0] + bestItem.data[0], W - bestItem.data[1]))
+                    results[best_item.data[2]] = (True, pallet_width - best_item.data[1], gap.data[0], False)
+                    skyline.add((gap.data[0] + best_item.data[0], pallet_width - best_item.data[1]))
             else:
-                results[bestItem.data[2]] = (True, gap.data[1], gap.data[0], False)
-                gap.data = gap.data[0] + bestItem.data[0], gap.data[1]
+                results[best_item.data[2]] = (True, gap.data[1], gap.data[0], False)
+                gap.data = gap.data[0] + best_item.data[0], gap.data[1]
 
-            itemsList.remove(bestItem)
+            items_list.remove(best_item)
         elif score == 2:
-            results[bestItem.data[2]] = (True, gap.data[1], gap.data[0], False)
-            if bestItem.data[0] != height1:
+            results[best_item.data[2]] = (True, gap.data[1], gap.data[0], False)
+            if best_item.data[0] != height1:
                 skyline.remove(gap.next)
-                gap.data = gap.data[0] + bestItem.data[0], gap.data[1]
-            elif bestItem.data[0] != height2:
+                gap.data = gap.data[0] + best_item.data[0], gap.data[1]
+            elif best_item.data[0] != height2:
                 skyline.remove(gap)
             else:
-                gap.data = gap.data[0], gap.data[1] + bestItem.data[1]
+                gap.data = gap.data[0], gap.data[1] + best_item.data[1]
 
-            itemsList.remove(bestItem)
+            items_list.remove(best_item)
         elif score == 3:
-            nxt = gap.next
+            next_point = gap.next
             skyline.remove(gap)
-            skyline.remove(nxt)
+            skyline.remove(next_point)
 
-            itemsList.remove(bestItem)
-            results[bestItem.data[2]] = (True, gap.data[1], gap.data[0], False)
+            items_list.remove(best_item)
+            results[best_item.data[2]] = (True, gap.data[1], gap.data[0], False)
 
     packed = 0
     for i in range(len(items)):
@@ -107,4 +109,4 @@ def skylineDecode(H, W, items, permutation):
         else:
             packed += items[i][0] * items[i][1]
 
-    return H * W - packed, results
+    return pallet_height * pallet_width - packed, results

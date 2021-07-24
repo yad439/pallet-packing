@@ -2,12 +2,12 @@ import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 
 
-def drawPallet(H, W, items, positions):
+def draw_pallet(pallet_width, pallet_height, items, positions):
     fig, ax = plt.subplots()
-    pallet = patches.Rectangle((0, 0), W, H, linewidth=5, facecolor='none', edgecolor='blue')
+    pallet = patches.Rectangle((0, 0), pallet_width, pallet_height, linewidth=5, facecolor='none', edgecolor='blue')
     ax.add_patch(pallet)
-    ax.set_xlim(-1, W + 1)
-    ax.set_ylim(-1, H + 1)
+    ax.set_xlim(-1, pallet_width + 1)
+    ax.set_ylim(-1, pallet_height + 1)
     # ax.grid(True)
     for i in range(len(items)):
         if positions[i][0]:

@@ -1,9 +1,9 @@
 class LinkedList:
     class Node:
-        def __init__(self, data, prev, next):
+        def __init__(self, data, prev_node, next_node):
             self.data = data
-            self.prev = prev
-            self.next = next
+            self.prev = prev_node
+            self.next = next_node
 
     class Iterator:
         def __init__(self, node):
@@ -23,7 +23,7 @@ class LinkedList:
     def __iter__(self):
         return LinkedList.Iterator(self.first)
 
-    def isEmpty(self):
+    def is_empty(self):
         return self.first is None
 
     def add(self, elem):
@@ -35,7 +35,7 @@ class LinkedList:
             self.last.next = new
             self.last = new
 
-    def addAfter(self, node, elem):
+    def insert(self, node, elem):
         nxt = node.next
         new = LinkedList.Node(elem, node, nxt)
         node.next = new
@@ -47,14 +47,14 @@ class LinkedList:
     def remove(self, node):
         if node is None:
             return None
-        next = node.next
-        prev = node.prev
-        if prev is not None:
-            prev.next = next
-        if next is not None:
-            next.prev = prev
+        next_node = node.next
+        prev_node = node.prev
+        if prev_node is not None:
+            prev_node.next = next_node
+        if next_node is not None:
+            next_node.prev = prev_node
         if node is self.first:
             self.first = node.next
         if node is self.last:
             self.last = node.prev
-        return prev
+        return prev_node
