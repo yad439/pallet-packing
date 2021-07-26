@@ -30,7 +30,6 @@ def task_one_model_adapter(pallet_width: int, pallet_height: int, items: List[It
     return int(result[1]), result[3]
 
 
-# wrong model
 def task_two_model(pallet_width: int, pallet_height: int, items: List[Item], x_tolerance: Union[float, int],
                    y_tolerance: Union[float, int], *, limit: int = 0, backend: str = 'SCIP'):
     solver = _build_simple_model(pallet_width, pallet_height, items, backend)
@@ -46,10 +45,14 @@ def task_two_model(pallet_width: int, pallet_height: int, items: List[Item], x_t
     for i in range(n):
         solver.Add(cx[i] <= big_num * z[i])
         solver.Add(cy[i] <= big_num * z[i])
-        solver.Add(cx[i] <= x[i])
-        solver.Add(cy[i] <= y[i])
-        solver.Add(cx[i] >= x[i] - big_num * (1 - z[i]))
-        solver.Add(cy[i] >= y[i] - big_num * (1 - z[i]))
+        solver.Add(cx[i] <= x[i] + big_num * r[i])
+        solver.Add(cy[i] <= y[i] + big_num * r[i])
+        solver.Add(cx[i] <= y[i] + big_num * (1 - r[i]))
+        solver.Add(cy[i] <= x[i] + big_num * (1 - r[i]))
+        solver.Add(cx[i] >= x[i] - big_num * (1 - z[i])) - big_num * r[i]
+        solver.Add(cx[i] >= y[i] - big_num * (1 - z[i])) - big_num * (1 - r[i])
+        solver.Add(cy[i] >= y[i] - big_num * (1 - z[i])) - big_num * r[i]
+        solver.Add(cy[i] >= x[i] - big_num * (1 - z[i])) - big_num * (1 - r[i])
         for j in range(n):
             if i != j:
                 solver.Add(sum(items[i].mass * cx[i] for i in range(n)) <= (pallet_width / 2 + x_tolerance) * sum(
