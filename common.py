@@ -2,15 +2,10 @@ from typing import Union
 
 
 class Item:
-    def __init__(self, width: int, height: int, mass: int):
+    def __init__(self, width: int, height: int, mass: Union[int, None] = None):
         self.width = width
         self.height = height
         self.mass = mass
-
-    def __init__(self, width: int, height: int):
-        self.width = width
-        self.height = height
-        self.mass = None
 
 
 class Position:
