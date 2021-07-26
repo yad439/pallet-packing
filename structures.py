@@ -1,9 +1,11 @@
-from typing import Union
+from typing import Generic, TypeVar, Union
+
+T = TypeVar('T')
 
 
-class LinkedList:
-    class Node:
-        def __init__(self, data, prev_node, next_node):
+class LinkedList(Generic[T]):
+    class Node(Generic[T]):
+        def __init__(self, data: T, prev_node, next_node):
             self.data = data
             self.prev = prev_node
             self.next = next_node
@@ -26,10 +28,10 @@ class LinkedList:
     def __iter__(self) -> Iterator:
         return LinkedList.Iterator(self.first)
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
         return self.first is None
 
-    def add(self, elem):
+    def add(self, elem: T):
         if self.first is None:
             self.first = LinkedList.Node(elem, None, None)
             self.last = self.first
@@ -38,7 +40,7 @@ class LinkedList:
             self.last.next = new
             self.last = new
 
-    def insert(self, node: Node, elem):
+    def insert(self, node: Node, elem: T):
         nxt = node.next
         new = LinkedList.Node(elem, node, nxt)
         node.next = new

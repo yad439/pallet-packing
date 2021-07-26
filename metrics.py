@@ -1,10 +1,11 @@
 import time
-from typing import List
+from typing import Any, Callable, List, Tuple
 
 from common import Item
 
 
-def print_efficiency(pallet_width: int, pallet_height: int, items: List[Item], algorithm) -> None:
+def print_efficiency(pallet_width: int, pallet_height: int, items: List[Item],
+                     algorithm: Callable[[int, int, List[Item]], Tuple[int, Any]]) -> None:
     start_time = time.time()
     result = algorithm(pallet_width, pallet_height, items)
     end_time = time.time()
