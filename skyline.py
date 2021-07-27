@@ -1,11 +1,11 @@
-from typing import Iterable, List, Tuple, Union
+from typing import Iterable, List, Optional, Tuple
 
 from common import Item, Position
 from structures import LinkedList
 
 
 def skyline_decode(pallet_width: int, pallet_height: int, items: List[Item], permutation: Iterable[int]) \
-        -> Tuple[int, List[Union[Position, None]]]:
+        -> Tuple[int, List[Optional[Position]]]:
     skyline = LinkedList()
     skyline.add((0, 0))
 
@@ -13,7 +13,7 @@ def skyline_decode(pallet_width: int, pallet_height: int, items: List[Item], per
     for item in permutation:
         items_list.add((items[item].width, items[item].height, item))
 
-    results: List[Union[None, Position]] = [None for _ in range(len(items))]
+    results: List[Optional[Position]] = [None for _ in range(len(items))]
 
     while not items_list.is_empty():
         gap = None

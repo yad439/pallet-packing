@@ -1,4 +1,4 @@
-from typing import Iterable, Union
+from typing import Iterable, Optional
 
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
@@ -7,7 +7,7 @@ from common import Item, Position
 
 
 def draw_pallet(pallet_width: int, pallet_height: int, items: Iterable[Item],
-                positions: Iterable[Union[Position, None]]) -> None:
+                positions: Iterable[Optional[Position]]) -> None:
     fig, ax = plt.subplots()
     pallet = patches.Rectangle((0, 0), pallet_width, pallet_height, linewidth=5, facecolor='none', edgecolor='blue')
     ax.add_patch(pallet)

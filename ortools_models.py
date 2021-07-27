@@ -1,4 +1,4 @@
-from typing import Collection, List, Tuple, Union
+from typing import Collection, List, Optional, Tuple, Union
 
 from ortools.linear_solver import pywraplp
 
@@ -25,7 +25,7 @@ def task_one_model(pallet_width: int, pallet_height: int, items: Collection[Item
 
 
 def task_one_model_adapter(pallet_width: int, pallet_height: int, items: List[Item]) \
-        -> Tuple[int, List[Union[Position, None]]]:
+        -> Tuple[int, List[Optional[Position]]]:
     result = task_one_model(pallet_width, pallet_height, items)
     return int(result[1]), result[3]
 
