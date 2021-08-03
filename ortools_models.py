@@ -9,6 +9,8 @@ def task_one_model(pallet_width: int, pallet_height: int, items: Collection[Item
                    backend: str = 'SCIP'):
     solver = _build_simple_model(pallet_width, pallet_height, items, backend)
 
+    solver.EnableOutput()
+
     if limit != 0:
         solver.SetTimeLimit(limit)
 
@@ -61,6 +63,8 @@ def task_two_model(pallet_width: int, pallet_height: int, items: List[Item], x_t
                         items[i].mass * z[i] for i in range(n)))
                 solver.Add(sum(items[i].mass * cy[i] for i in range(n)) >= (pallet_height / 2 - y_tolerance) * sum(
                         items[i].mass * z[i] for i in range(n)))
+
+    solver.EnableOutput()
 
     if limit != 0:
         solver.SetTimeLimit(limit)
