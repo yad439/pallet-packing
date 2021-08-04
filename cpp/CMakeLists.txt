@@ -8,7 +8,7 @@ if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 endif ()
 set(CMAKE_INSTALL_BINDIR lib)
 
-add_library(cpp MODULE library.cpp)
+add_library(cpp MODULE library.cpp skyline.cpp)
 
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
 	target_compile_options(cpp PRIVATE -Wall -Wextra -Wpedantic)
