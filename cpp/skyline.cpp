@@ -7,8 +7,9 @@
 using std::pair;
 using std::get;
 
-int skyline_decode(int pallet_width, int pallet_height, std::span<Item> items, std::span<size_t> permutation,
-                   std::span<Position> results) {
+int skyline_decode(const int pallet_width, const int pallet_height, const std::span<const Item> items,
+                   const std::span<const size_t> permutation,
+                   const std::span<Position> results) {
 	std::list<pair<int, int>> skyline;
 	skyline.emplace_back(0, 0);
 
@@ -153,7 +154,6 @@ int skyline_decode(int pallet_width, int pallet_height, std::span<Item> items, s
 					results[item_index] = Position{true, static_cast<double>(gap->first),
 					                               static_cast<double>(gap->second), rotated};
 
-				assert((next == skyline.end() && gap->second == pallet_height) || gap->second == next->second);
 				skyline.erase(gap);
 				if (next != skyline.end())skyline.erase(next);
 

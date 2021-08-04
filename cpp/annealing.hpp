@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <utility>
+#include <random>
 
 namespace modular {
 
@@ -24,7 +25,7 @@ namespace modular {
 	template<class Encoding>
 	[[nodiscard]] Encoding annealing(const AnnealingSettings settings /*NOLINT(performance-unnecessary-value-param)*/,
 	                                 const std::function<int(const Encoding &)> score_function,
-	                                 Encoding start_encoding) {
+	                                 Encoding start_encoding, std::default_random_engine &rng) {
 		auto current_solution = std::move(start_encoding);
 		auto min_score = score_function(current_solution);
 		auto min_solution = current_solution;
@@ -33,7 +34,7 @@ namespace modular {
 		auto temperature = settings.start_temperature;
 		for (size_t temp_iter = 0; temp_iter < settings.iterations; ++temp_iter) {
 			for (size_t inner_iter = 0; inner_iter < settings.same_temperature_iterations; ++inner_iter) {
-				auto change = current_solution.random_change();
+				auto change = current_solution.random_change(rng);
 				auto new_score = score_function(current_solution);
 
 				if (settings.should_change(previous_score, new_score, temperature)) {
