@@ -4,16 +4,14 @@
 #include <functional>
 #include <cassert>
 
-using std::pair;
-using std::get;
+using namespace std;
 
-int skyline_decode(const int pallet_width, const int pallet_height, const std::span<const Item> items,
-                   const std::span<const size_t> permutation,
-                   const std::span<Position> results) {
-	std::list<pair<int, int>> skyline;
+int skyline_decode(const int pallet_width, const int pallet_height, const span<const Item> items,
+                   const span<const size_t> permutation, const span<Position> results) {
+	list<pair<int, int>> skyline;
 	skyline.emplace_back(0, 0);
 
-	std::list<std::tuple<int, int, size_t>> items_list;
+	list<tuple<int, int, size_t>> items_list;
 	for (auto i:permutation)items_list.emplace_back(items[i].width, items[i].height, i);
 
 	auto packed = 0;

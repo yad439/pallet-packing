@@ -10,18 +10,17 @@
 #include "annealing.hpp"
 #include "permutation_encoding.hpp"
 
-using std::span;
-using namespace modular;
+using namespace std;
 
 extern "C" {
 
 [[maybe_unused]] int __cdecl simple_skyline(
 		int pallet_width, int pallet_height, int n, Item *items, Position *positions
                                            ) {
-	std::vector<size_t> permutation(static_cast<std::vector<size_t>::size_type>(n));
-	std::iota(permutation.begin(), permutation.end(), 0);
-	return skyline_decode(pallet_width, pallet_height, span(items, static_cast<std::span<Item>::size_type>(n)),
-	                      span(permutation), span(positions, static_cast<std::span<Position>::size_type>(n)));
+	vector<size_t> permutation(static_cast<vector<size_t>::size_type>(n));
+	iota(permutation.begin(), permutation.end(), 0);
+	return skyline_decode(pallet_width, pallet_height, span(items, static_cast<span<Item>::size_type>(n)),
+	                      span(permutation), span(positions, static_cast<span<Position>::size_type>(n)));
 }
 
 [[maybe_unused]] int __cdecl simulated_annealing_skyline(
@@ -30,12 +29,12 @@ extern "C" {
 	const auto start_temperature = pallet_width * pallet_height / 2;
 	const auto steps = 100000;
 	const auto power = pow(-start_temperature * log(1e-3), -1.0 / steps);
-	std::default_random_engine rng(
-			static_cast<std::default_random_engine::result_type>(
-					std::chrono::high_resolution_clock::now().time_since_epoch().count()
+	default_random_engine rng(
+			static_cast<default_random_engine::result_type>(
+					chrono::high_resolution_clock::now().time_since_epoch().count()
 			)
 	);
-	std::uniform_real_distribution<double> dist;
+	uniform_real_distribution<double> dist;
 	const auto settings = AnnealingSettings(
 			steps, 1, start_temperature,
 			[power](const auto x) { return x * power; },
@@ -44,14 +43,14 @@ extern "C" {
 			}
 	);
 
-	std::vector<size_t> permutation(static_cast<std::vector<size_t>::size_type>(n));
-	std::iota(permutation.begin(), permutation.end(), 0);
-	std::shuffle(permutation.begin(), permutation.end(), rng);
+	vector<size_t> permutation(static_cast<vector<size_t>::size_type>(n));
+	iota(permutation.begin(), permutation.end(), 0);
+	shuffle(permutation.begin(), permutation.end(), rng);
 
 	const auto resulting_encoding = annealing(
 			settings,
-			std::function(
-					[pallet_width, pallet_height, items = span(items, static_cast<std::span<Item>::size_type>(n))]
+			function(
+					[pallet_width, pallet_height, items = span(items, static_cast<span<Item>::size_type>(n))]
 							(const PermutationEncoding &enc) {
 						return skyline_decode(pallet_width, pallet_height, items, span(enc.permutation()),
 						                      span<Position>());
@@ -60,9 +59,9 @@ extern "C" {
 			rng
 	);
 
-	return skyline_decode(pallet_width, pallet_height, span(items, static_cast<std::span<Item>::size_type>(n)),
+	return skyline_decode(pallet_width, pallet_height, span(items, static_cast<span<Item>::size_type>(n)),
 	                      span(resulting_encoding.permutation()),
-	                      span(positions, static_cast<std::span<Position>::size_type>(n)));
+	                      span(positions, static_cast<span<Position>::size_type>(n)));
 }
 
 }
