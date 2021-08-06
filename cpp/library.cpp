@@ -15,20 +15,19 @@ using namespace std;
 extern "C" {
 
 [[maybe_unused]] int __cdecl simple_skyline(
-		int pallet_width, int pallet_height, int n, Item *items, Position *positions
+		const int pallet_width, const int pallet_height, const unsigned n, const Item *const items,
+		Position *const positions
                                            ) {
-	vector<size_t> permutation(static_cast<vector<size_t>::size_type>(n));
+	vector<size_t> permutation(n);
 	iota(permutation.begin(), permutation.end(), 0);
-	return skyline_decode(pallet_width, pallet_height, span(items, static_cast<span<Item>::size_type>(n)),
-	                      span(permutation), span(positions, static_cast<span<Position>::size_type>(n)));
+	return skyline_decode(pallet_width, pallet_height, span(items, n), span(permutation), span(positions, n));
 }
 
 [[maybe_unused]] int __cdecl simulated_annealing_skyline(
-		int pallet_width, int pallet_height, int n, Item *items, Position *positions
+		const int pallet_width, const int pallet_height, const unsigned n, const Item *const items,
+		Position *const positions,
+		const unsigned steps, const unsigned same_temperature_steps, const double start_temperature, const double power
                                                         ) {
-	const auto start_temperature = pallet_width * pallet_height / 2;
-	const auto steps = 100000;
-	const auto power = pow(-start_temperature * log(1e-3), -1.0 / steps);
 	default_random_engine rng(
 			static_cast<default_random_engine::result_type>(
 					chrono::high_resolution_clock::now().time_since_epoch().count()
@@ -36,21 +35,21 @@ extern "C" {
 	);
 	uniform_real_distribution<double> dist;
 	const auto settings = AnnealingSettings(
-			steps, 1, start_temperature,
+			steps, same_temperature_steps, start_temperature,
 			[power](const auto x) { return x * power; },
 			[&rng, &dist](const auto old_solution, const auto new_solution, const auto temp) {
 				return dist(rng) < exp(static_cast<double>(old_solution - new_solution) / temp);
 			}
 	);
 
-	vector<size_t> permutation(static_cast<vector<size_t>::size_type>(n));
+	vector<size_t> permutation(n);
 	iota(permutation.begin(), permutation.end(), 0);
 	shuffle(permutation.begin(), permutation.end(), rng);
 
 	const auto resulting_encoding = annealing(
 			settings,
 			function(
-					[pallet_width, pallet_height, items = span(items, static_cast<span<Item>::size_type>(n))]
+					[pallet_width, pallet_height, items = span(items, n)]
 							(const PermutationEncoding &enc) {
 						return skyline_decode(pallet_width, pallet_height, items, span(enc.permutation()),
 						                      span<Position>());
@@ -59,9 +58,20 @@ extern "C" {
 			rng
 	);
 
-	return skyline_decode(pallet_width, pallet_height, span(items, static_cast<span<Item>::size_type>(n)),
-	                      span(resulting_encoding.permutation()),
-	                      span(positions, static_cast<span<Position>::size_type>(n)));
+	return skyline_decode(pallet_width, pallet_height, span(items, n), span(resulting_encoding.permutation()),
+	                      span(positions, n));
+}
+
+[[maybe_unused]] int __cdecl simulated_annealing_skyline_auto(
+		const int pallet_width, const int pallet_height, const unsigned n, const Item *const items,
+		Position *const positions
+                                                             ) {
+	const auto start_temperature = pallet_width * pallet_height / 2;
+	constexpr auto steps = 100000;
+	constexpr auto same_temperature_steps = 1;
+	const auto power = pow(-start_temperature * log(1e-3), -1.0 / steps);
+	return simulated_annealing_skyline(pallet_width, pallet_height, n, items, positions, steps, same_temperature_steps,
+	                                   start_temperature, power);
 }
 
 }

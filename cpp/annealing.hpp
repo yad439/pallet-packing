@@ -30,8 +30,8 @@ template<class Encoding>
 
 	auto previous_score = min_score;
 	auto temperature = settings.start_temperature;
-	for (size_t temp_iter = 0; temp_iter < settings.iterations; ++temp_iter) {
-		for (size_t inner_iter = 0; inner_iter < settings.same_temperature_iterations; ++inner_iter) {
+	for (unsigned temp_iter = 0; temp_iter < settings.iterations; ++temp_iter) {
+		for (unsigned inner_iter = 0; inner_iter < settings.same_temperature_iterations; ++inner_iter) {
 			auto change = current_solution.random_change(rng);
 			auto new_score = score_function(current_solution);
 
