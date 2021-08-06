@@ -44,8 +44,8 @@ class Library:
         func.restype = c_int
         func.argtypes = [c_int, c_int, c_uint, POINTER(CItem), POINTER(CPosition)] + types
 
-        def _call(pallet_width: int, pallet_height: int, items: List[Item], *args) -> Tuple[
-            int, List[Optional[Position]]]:
+        def _call(pallet_width: int, pallet_height: int, items: List[Item], *args) \
+                -> Tuple[int, List[Optional[Position]]]:
             n = len(items)
             c_items = (CItem * n)(*map(lambda it: CItem(it.width, it.height), items))
             c_positions = (CPosition * n)()

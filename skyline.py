@@ -4,8 +4,10 @@ from common import Item, Position
 from structures import LinkedList
 
 
-def skyline_decode(pallet_width: int, pallet_height: int, items: List[Item], permutation: Iterable[int]) \
-        -> Tuple[int, List[Optional[Position]]]:
+def skyline_decode(pallet_width: int, pallet_height: int, items: List[Item],
+                   permutation: Optional[Iterable[int]] = None) -> Tuple[int, List[Optional[Position]]]:
+    if permutation is None:
+        permutation = range(len(items))
     skyline = LinkedList()
     skyline.add((0, 0))
 
