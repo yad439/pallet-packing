@@ -2,12 +2,13 @@ from typing import Iterable, Optional
 
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 
 from common import Item, Position
 
 
 def draw_pallet(pallet_width: int, pallet_height: int, items: Iterable[Item],
-                positions: Iterable[Optional[Position]]) -> None:
+                positions: Iterable[Optional[Position]]) -> Figure:
     fig, ax = plt.subplots()
     pallet = patches.Rectangle((0, 0), pallet_width, pallet_height, linewidth=5, facecolor='none', edgecolor='blue')
     ax.add_patch(pallet)
@@ -20,4 +21,4 @@ def draw_pallet(pallet_width: int, pallet_height: int, items: Iterable[Item],
             h = item.height if not position.rotated else item.width
             item = patches.Rectangle((position.x, position.y), w, h, linewidth=2, facecolor='gray', edgecolor='black')
             ax.add_patch(item)
-    fig.show()
+    return fig
