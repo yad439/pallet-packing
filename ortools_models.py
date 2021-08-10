@@ -26,9 +26,9 @@ def task_one_model(pallet_width: int, pallet_height: int, items: Collection[Item
             Position(xv[i], yv[i], rv[i]) if zv[i] else None for i in range(n)]
 
 
-def task_one_model_adapter(pallet_width: int, pallet_height: int, items: List[Item]) \
+def task_one_model_adapter(pallet_width: int, pallet_height: int, items: List[Item], time_limit: int = 60 * 1000) \
         -> Tuple[int, List[Optional[Position]]]:
-    result = task_one_model(pallet_width, pallet_height, items)
+    result = task_one_model(pallet_width, pallet_height, items, limit = time_limit)
     return int(result[1]), result[3]
 
 
