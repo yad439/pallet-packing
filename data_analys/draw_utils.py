@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
 
-def draw_cutting(H, W, items_xywh, margin=0.1, ax=None):
+def draw_cutting(W, H, items_xywh, margin=0.1, ax=None):
     if not ax:
         fig, ax = plt.subplots()
         
