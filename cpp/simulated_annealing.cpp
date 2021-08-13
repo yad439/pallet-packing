@@ -1,6 +1,6 @@
 #include "simulated_annealing.h"
 
-void simulated_annealing(int H, int W, double r) {
+void simulated_annealing(int H, int W, double r, int num_of_iters) {
 	clock_t start = clock();
 	vector<Data*> rectangles;
 	vector<point*> positions;
@@ -17,8 +17,6 @@ void simulated_annealing(int H, int W, double r) {
 	S = solution(T0, r0);
 	Sc = S;
 	int iterations = 0;
-	int num_of_iters;
-	cin >> num_of_iters;
 	while (k < 10 && iterations <= num_of_iters) {
 		for (int j = 0; j <= L; j++) {
 			iterations++;
