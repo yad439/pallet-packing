@@ -1,3 +1,5 @@
 matplotlib
 ortools
 gradio
+jupyter
+pandas
