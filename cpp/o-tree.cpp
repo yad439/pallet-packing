@@ -145,28 +145,38 @@ int solution(const string& T, vector<Data*>& rectangles) {
 }
 
 void remove_excess(string& T, vector<Data*>& rectangles, vector<point*>& positions, int H, int W) {
-	int count = 0;
-	for (int i = 0; i < size(positions); i++) {
+	vector<step*> c;
+	int i = 0;
+	while (i < size(positions)) {
 		if (positions[i]->x + rectangles[i]->width > W || positions[i]->y + rectangles[i]->height > H) {
-			int j = rectangles[i]->place - count;
+			int j = rectangles[i]->place;
 			int s = 0;
 			int k = 0;
-			do {
-				if (T[j] == '0') {
-					s++;
-					j++;
-				}
-				else {
-					s--;
-					k++;
-				}
-			} while (s != 0);
-			int one = j + k - 1;
-			T.erase(one, 1);
-			T.erase(rectangles[i]->place - count, 1);
+			if (T.substr(rectangles[i]->place, 2) == "01") {
+				T.erase(rectangles[i]->place, 2);
+			}
+			else {
+				do {
+					if (T[j + k] == '0') {
+						s++;
+						j++;
+					}
+					else {
+						s--;
+						k++;
+					}
+				} while (s != 0);
+				int one = j + k - 1;
+				T.erase(one, 1);
+				T.erase(rectangles[i]->place, 1);
+			}
 			rectangles.erase(rectangles.cbegin() + i);
-			positions.erase(positions.cbegin() + i);
-			count += 2;
+			positions.clear();
+			c = round(T, rectangles, positions, true);
+			c.clear();
+		}
+		else {
+			i++;
 		}
 	}
 }
@@ -175,9 +185,6 @@ int solution(string& T, vector<Data*>& rectangles, vector<point*>& positions, in
 	int maxH = 0;
 	int maxW = 0;
 	vector<step*> contour;
-	contour = round(T, rectangles, positions, true);
-	remove_excess(T, rectangles, positions, H, W);
-	positions.clear();
 	contour = round(T, rectangles, positions, true);
 	remove_excess(T, rectangles, positions, H, W);
 	positions.clear();
