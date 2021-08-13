@@ -11,9 +11,23 @@ int main() {
 	srand(time(nullptr));
 	int H;
 	int W;
+	string method;
+	cout << "enter the height and width of the pallet" << endl;
 	cin >> H >> W;
-	//simulated_annealing(H, W, 0.91);
-	NFD(H, W);
+	cout << "enter the solution method" << endl;
+	cin >> method;
+	if (method == "NFD") {
+		NFD(H, W);
+	}
+	else if (method == "SA") {
+		double r;
+		int num_of_iters;
+		cout << "enter cooling coefficient" << endl;
+		cin >> r;
+		cout << "enter number of iterations" << endl;
+		cin >> num_of_iters;
+		simulated_annealing(H, W, r, num_of_iters);
+	}
 	system("pause");
 	return 0;
 }
