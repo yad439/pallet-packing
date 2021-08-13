@@ -25,6 +25,7 @@ void pushrect(vector<Data*>& rectangles)
 	int h;
 	ifstream fin;
 	string way;
+	cout << "specify the path to the data file" << endl;
 	cin >> way;
 	fin.open(way);
 	while (fin >> w >> h) {
