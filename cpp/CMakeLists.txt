@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(pallet-packing-cpp)
+project(pallet-packing-cpp LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
