@@ -1,31 +1,7 @@
 import subprocess
-from typing import Union, List, Tuple, Optional
+from typing import List, Optional, Tuple
 
-
-class Item:
-    def __init__(self, width: int, height: int, mass: Union[int, None] = None):
-        self.width = width
-        self.height = height
-        self.mass = mass
-
-    def __repr__(self) -> str:
-        return f'Item({repr(self.width)}, {repr(self.height)}, {repr(self.mass)})'
-
-    def __str__(self) -> str:
-        return f'Item({str(self.width)}, {str(self.height)}, {str(self.mass)})'
-
-
-class Position:
-    def __init__(self, x: Union[int, float], y: Union[int, float], rotated: bool):
-        self.x = x
-        self.y = y
-        self.rotated = rotated
-
-    def __repr__(self) -> str:
-        return f'Position({repr(self.x)}, {repr(self.y)}, {repr(self.rotated)})'
-
-    def __str__(self) -> str:
-        return f'Position({str(self.x)}, {str(self.y)}, {str(self.rotated)})'
+from common import Item, Position
 
 
 def nfd(pallet_width: int, pallet_height: int, items: List[Item]) -> Tuple[int, List[Optional[Position]]]:
@@ -63,17 +39,20 @@ def nfd(pallet_width: int, pallet_height: int, items: List[Item]) -> Tuple[int, 
                 positions.pop(j)
                 break
 
-    area=pallet_width*pallet_height
+    area = pallet_width * pallet_height
     for i in range(len(items)):
         if results[i] is not None:
-            area-=items[i].width*items[i].height
+            area -= items[i].width * items[i].height
     return area, results
 
-def simulated_annealing(pallet_width: int, pallet_height: int, cooling_coef : float, num_of_iters : int, items: List[Item]) -> Tuple[int, float, int, List[Optional[Position]]]:
+
+def simulated_annealing(pallet_width: int, pallet_height: int, items: List[Item], cooling_coef: float,
+                        num_of_iters: int) -> Tuple[int, List[Optional[Position]]]:
     with open('tmp/input.txt', 'w') as file:
         for item in items:
             print(item.width, item.height, file=file)
-    output = subprocess.run("bin/workshop.exe", input=f"{pallet_width} {pallet_height} SA {cooling_coef} {num_of_iters} tmp/input.txt",
+    output = subprocess.run("bin/workshop.exe",
+                            input=f"{pallet_width} {pallet_height} SA {cooling_coef} {num_of_iters} tmp/input.txt",
                             capture_output=True, text=True).stdout
     sizes_str, positions_str = output.split('|')
 
@@ -104,31 +83,8 @@ def simulated_annealing(pallet_width: int, pallet_height: int, cooling_coef : fl
                 positions.pop(j)
                 break
 
-    area=pallet_width*pallet_height
+    area = pallet_width * pallet_height
     for i in range(len(items)):
         if results[i] is not None:
-            area-=items[i].width*items[i].height
+            area -= items[i].width * items[i].height
     return area, results
-
-items = [
-    Item(1, 3),
-    Item(2, 1),
-    Item(4, 2),
-    Item(3, 4),
-    Item(2, 3),
-    Item(3, 3),
-    Item(3, 3),
-    Item(1, 4),
-    Item(4, 1),
-    Item(1, 4),
-    Item(2, 4),
-    Item(2, 2),
-    Item(4, 3),
-    Item(1, 3),
-    Item(3, 4)
-]
-
-res = nfd(10, 10, items)
-res = simulated_annealing(10, 10, 0.99, 1000000, items)
-print(res[0])
-print(res[1])
