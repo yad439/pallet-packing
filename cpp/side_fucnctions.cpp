@@ -19,6 +19,32 @@ string create_simple_string1(int n) {
 	return t;
 }
 
+string create_nfd_string(vector<Data*> &rectangles, int H, int W){
+	int n = size(rectangles);
+	string t;
+	int w_level = 0;
+	int i = 1;
+	int count = 1;
+	sort(rectangles.begin(), rectangles.end(), comp());
+	w_level = rectangles[0]->width;
+	t = '0';
+	while (i < n) {
+		while (i != n && w_level + rectangles[i]->width <= W) {
+			count++;
+			t += '0';
+			w_level += rectangles[i]->width;
+			i++;
+		}
+		for (int j = 0; j < count; j++) {
+			t += '1';
+		}
+
+		count = 0;
+		w_level = 0;
+	}
+	return t;
+}
+
 void pushrect(vector<Data*>& rectangles)
 {
 	int w;
