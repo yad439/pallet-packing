@@ -1,6 +1,5 @@
 #include "library.h"
 
-#include <ranges>
 #include <vector>
 #include <numeric>
 #include <chrono>
