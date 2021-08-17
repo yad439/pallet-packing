@@ -6,7 +6,11 @@
 #if !defined(WIN32) && !defined(_WIN32) && !defined(__WIN32__) && !defined(__NT__)
 #define __declspec(v)
 #define CALL_PREF
+#ifdef defined(__GNUC__) && defined(__linux__)
+#define CALL_SUF
+#else
 #define CALL_SUF __attribute__((cdecl))
+#endif
 #else
 #define CALL_PREF __cdecl
 #define CALL_SUF __attribute__((cdecl))
