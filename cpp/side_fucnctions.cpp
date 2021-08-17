@@ -25,7 +25,6 @@ void pushrect(vector<Data*>& rectangles)
 	int h;
 	ifstream fin;
 	string way;
-	cout << "specify the path to the data file" << endl;
 	cin >> way;
 	fin.open(way);
 	while (fin >> w >> h) {
@@ -38,17 +37,13 @@ void pushrect(vector<Data*>& rectangles)
 }
 
 void display(const string& T, int S, const vector<Data*>& rectangles, const vector<point*>& positions, double sec) {
-	cout << T << endl;
-	cout << "S:" << S << endl;
-	cout << "packing:" << endl;
 	for (int i = 0; i < rectangles.size(); i++) {
-		cout << rectangles[i]->width << ", " << rectangles[i]->height << endl;
+		cout << rectangles[i]->width << " " << rectangles[i]->height << endl;
 	}
-	cout << "left bottom angle:" << endl;
+	cout << "|" << endl;
 	for (int i = 0; i < positions.size(); i++) {
-		cout << '(' << positions[i]->x << ',' << positions[i]->y << ')' << endl;
+		cout << positions[i]->x << " " << positions[i]->y << endl;
 	}
-	cout << sec << " seconds" << endl;
 }
 
 string neighborhood(string T, vector<Data*>& rectangles) {
