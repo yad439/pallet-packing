@@ -12,9 +12,7 @@ int main() {
 	int H;
 	int W;
 	string method;
-	cout << "enter the height and width of the pallet" << endl;
 	cin >> H >> W;
-	cout << "enter the solution method" << endl;
 	cin >> method;
 	if (method == "NFD") {
 		NFD(H, W);
@@ -22,12 +20,9 @@ int main() {
 	else if (method == "SA") {
 		double r;
 		int num_of_iters;
-		cout << "enter cooling coefficient" << endl;
 		cin >> r;
-		cout << "enter number of iterations" << endl;
 		cin >> num_of_iters;
 		simulated_annealing(H, W, r, num_of_iters);
 	}
-	system("pause");
 	return 0;
 }
