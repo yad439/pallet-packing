@@ -13,20 +13,20 @@ using namespace std;
 
 extern "C" {
 
-[[maybe_unused]] int __cdecl simple_skyline(
+[[maybe_unused]] int simple_skyline(
 		const int pallet_width, const int pallet_height, const unsigned n, const Item *const items,
 		Position *const positions
-                                           ) {
+                                   ) {
 	vector<size_t> permutation(n);
 	iota(permutation.begin(), permutation.end(), 0);
 	return skyline_decode(pallet_width, pallet_height, span(items, n), span(permutation), span(positions, n));
 }
 
-[[maybe_unused]] int __cdecl simulated_annealing_skyline(
+[[maybe_unused]] int simulated_annealing_skyline(
 		const int pallet_width, const int pallet_height, const unsigned n, const Item *const items,
 		Position *const positions,
 		const unsigned steps, const unsigned same_temperature_steps, const double start_temperature, const double power
-                                                        ) {
+                                                ) {
 	default_random_engine rng(
 			static_cast<default_random_engine::result_type>(
 					chrono::high_resolution_clock::now().time_since_epoch().count()
@@ -61,10 +61,10 @@ extern "C" {
 	                      span(positions, n));
 }
 
-[[maybe_unused]] int __cdecl simulated_annealing_skyline_auto(
+[[maybe_unused]] int simulated_annealing_skyline_auto(
 		const int pallet_width, const int pallet_height, const unsigned n, const Item *const items,
 		Position *const positions
-                                                             ) {
+                                                     ) {
 	const auto start_temperature = pallet_width * pallet_height / 2;
 	constexpr auto steps = 100000;
 	constexpr auto same_temperature_steps = 1;
