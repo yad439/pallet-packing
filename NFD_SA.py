@@ -1,3 +1,4 @@
+import os
 import subprocess
 from typing import List, Optional, Tuple, Union
 
@@ -18,6 +19,8 @@ def simulated_annealing(pallet_width: int, pallet_height: int, items: List[Item]
 
 def _run_external_program(pallet_width: int, pallet_height: int, items: List[Item], args: Union[str, List[str]],
                           input_str: str) -> Tuple[int, List[Optional[Position]]]:
+    if not os.path.isdir('tmp'):
+        os.mkdir('tmp')
     with open('tmp/input.txt', 'w') as file:
         for item in items:
             print(item.width, item.height, file=file)
