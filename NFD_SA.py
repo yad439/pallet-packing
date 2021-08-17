@@ -1,17 +1,18 @@
 import subprocess
 from typing import List, Optional, Tuple, Union
 
+from c_interop import EXE_FILE
 from common import Item, Position
 
 
 def nfd(pallet_width: int, pallet_height: int, items: List[Item]) -> Tuple[int, List[Optional[Position]]]:
-    return _run_external_program(pallet_width, pallet_height, items, 'bin/workshop.exe',
+    return _run_external_program(pallet_width, pallet_height, items, EXE_FILE,
                                  f'{pallet_width} {pallet_height} NFD tmp/input.txt')
 
 
 def simulated_annealing(pallet_width: int, pallet_height: int, items: List[Item], cooling_coef: float,
                         num_of_iters: int) -> Tuple[int, List[Optional[Position]]]:
-    return _run_external_program(pallet_width, pallet_height, items, 'bin/workshop.exe',
+    return _run_external_program(pallet_width, pallet_height, items, EXE_FILE,
                                  f'{pallet_width} {pallet_height} SA {cooling_coef} {num_of_iters} tmp/input.txt')
 
 

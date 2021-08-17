@@ -1,3 +1,4 @@
+import platform
 from ctypes import POINTER, Structure, c_bool, c_double, c_int, c_uint, cdll
 from math import log
 from typing import Callable, List, Optional, Tuple
@@ -54,3 +55,12 @@ class Library:
             return result, positions
 
         return _call
+
+
+if platform.system() == 'Windows':
+    LIBRARY_FILE = 'lib/libcpp.dll'
+    EXE_FILE = 'bin/workshop.exe'
+else:
+    assert platform.system() == 'Linux'
+    LIBRARY_FILE = 'lib/libcpp.so'
+    EXE_FILE = 'bin/workshop'
