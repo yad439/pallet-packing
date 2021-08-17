@@ -2,6 +2,7 @@
 #include<iostream>
 #include<fstream>
 #include "o-tree.h"
+#include "NFD.h"
 using namespace std;
 string create_simple_string(int n);
 string create_simple_string1(int n);
