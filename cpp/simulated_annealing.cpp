@@ -5,7 +5,7 @@ void simulated_annealing(int H, int W, double r, int num_of_iters) {
 	vector<Data*> rectangles;
 	vector<point*> positions;
 	pushrect(rectangles);
-	string T = create_NFD_string(rectangles, H, W);
+	string T = create_nfd_string(rectangles, H, W);
 	string T0 = T;
 	vector<Data*> r0 = rectangles;
 	bool change = true;
