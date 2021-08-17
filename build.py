@@ -10,12 +10,15 @@ def build_with_cmake():
     cmake = 'cmake'
 
     cmake_generator = []
+    print(sys.argv)
     if len(sys.argv) == 2:
         cmake_generator = ['-G', sys.argv[1]]
     elif platform.system() == 'Windows':
         if subprocess.run([cmake, src_dir, '-B', build_dir]).returncode != 0:
             cmake_generator = ['-G', 'MinGW Makefiles']
             shutil.rmtree(build_dir)
+    else:
+        cmake_generator = []
 
     subprocess.run([cmake, src_dir, '-B', build_dir, '-DCMAKE_BUILD_TYPE=Release'] + cmake_generator)
     subprocess.run([cmake, '--build', build_dir, '--config', 'Release', '--target', 'install'])
