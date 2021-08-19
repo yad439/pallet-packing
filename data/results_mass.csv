@@ -1,0 +1,21 @@
+Generator type,File,Solver solution,Solver bound
+random,data/random_mass/random_10_0.txt,8288.0,8288.0
+random,data/random_mass/random_20_0.txt,6540.0,6540.0
+random,data/random_mass/random_50_0.txt,4681.0,2181.0
+random,data/random_mass/random_100_0.txt,6155.0,-5285.0
+guillotine_rand,data/random_mass/guillotine_rand_10_0.txt,3060.0,0.0
+guillotine_rand,data/random_mass/guillotine_rand_20_0.txt,3450.0,0.0
+guillotine_rand,data/random_mass/guillotine_rand_50_0.txt,4255.0,0.0
+guillotine_rand,data/random_mass/guillotine_rand_100_0.txt,0.0,0.0
+guillotine_equal,data/random_mass/guillotine_equal_10_0.txt,2990.0,0.0
+guillotine_equal,data/random_mass/guillotine_equal_20_0.txt,3293.0,0.0
+guillotine_equal,data/random_mass/guillotine_equal_50_0.txt,3766.0,0.0
+guillotine_equal,data/random_mass/guillotine_equal_100_0.txt,6535.0,0.0
+guillotine_max,data/random_mass/guillotine_max_10_0.txt,3232.0,0.0
+guillotine_max,data/random_mass/guillotine_max_20_0.txt,3670.0,0.0
+guillotine_max,data/random_mass/guillotine_max_50_0.txt,4723.0,0.0
+guillotine_max,data/random_mass/guillotine_max_100_0.txt,6286.0,0.0
+random,data/random_mass/random_10_1.txt,543.0,204.0
+random,data/random_mass/random_20_1.txt,1120.0,-45.0
+random,data/random_mass/random_50_1.txt,4021.0,-67.0
+random,data/random_mass/random_100_1.txt,9949.0,68.0
