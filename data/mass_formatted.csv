@@ -1,21 +1,21 @@
-Generator type,Solution,Bound,Time
-random,17.12,17.12,0.5025
-random,34.60,34.60,2.2247
-random,53.19,78.19,310.8678
-random,38.45,152.85,396.5641
-guillotine rand,69.40,100.00,300.4266
-guillotine rand,65.50,100.00,300.9883
-guillotine rand,57.45,100.00,311.3483
-guillotine rand,100.00,100.00,394.7669
-guillotine equal,70.10,100.00,300.377
-guillotine equal,67.07,100.00,300.9903
-guillotine equal,62.34,100.00,310.888
-guillotine equal,34.65,100.00,394.9389
-guillotine max,67.68,100.00,300.4972
-guillotine max,63.30,100.00,300.9327
-guillotine max,52.77,100.00,311.0202
-guillotine max,37.14,100.00,395.7883
-random,69.22,88.44,300.3566
-random,64.29,101.43,300.9864
-random,52.49,100.79,310.9659
-random,37.33,99.57,393.8776
+Generator type,Items number,Solution,Bound,Time
+random,10,17.12,17.12,0.5025
+random,20,34.60,34.60,2.2247
+random,50,53.19,78.19,310.8678
+random,100,38.45,152.85,396.5641
+guillotine rand,10,69.40,100.00,300.4266
+guillotine rand,20,65.50,100.00,300.9883
+guillotine rand,50,57.45,100.00,311.3483
+guillotine rand,100,100.00,100.00,394.7669
+guillotine equal,10,70.10,100.00,300.377
+guillotine equal,20,67.07,100.00,300.9903
+guillotine equal,50,62.34,100.00,310.888
+guillotine equal,100,34.65,100.00,394.9389
+guillotine max,10,67.68,100.00,300.4972
+guillotine max,20,63.30,100.00,300.9327
+guillotine max,50,52.77,100.00,311.0202
+guillotine max,100,37.14,100.00,395.7883
+random,10,69.22,88.44,300.3566
+random,20,64.29,101.43,300.9864
+random,50,52.49,100.79,310.9659
+random,100,37.33,99.57,393.8776
