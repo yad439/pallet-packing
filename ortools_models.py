@@ -43,8 +43,8 @@ def task_two_model(pallet_width: int, pallet_height: int, items: List[Item], x_t
     y = [solver.LookupVariable(f'y{i}') for i in range(n)]
     z = [solver.LookupVariable(f'z{i}') for i in range(n)]
     r = [solver.LookupVariable(f'r{i}') for i in range(n)]
-    cx = [solver.NumVar(0, solver.infinity(), f'x{i}') for i in range(n)]
-    cy = [solver.NumVar(0, solver.infinity(), f'y{i}') for i in range(n)]
+    cx = [solver.NumVar(0, solver.infinity(), f'cx{i}') for i in range(n)]
+    cy = [solver.NumVar(0, solver.infinity(), f'cy{i}') for i in range(n)]
 
     for i in range(n):
         solver.Add(cx[i] <= big_num * z[i])
