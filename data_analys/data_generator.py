@@ -67,7 +67,54 @@ def guillotine_cutting_max(W, H, n_rect=10, min_side=3, seed=1):
 
 
     return list(map(lambda x : x[1], heap_items_xywh))
- 
-      
+
+
+def bound_mean(x, x_min, x_max):
+    xc = sum(x) / len(x)
+    if xc > x_max:
+        xc = x_max - 1
+    elif xc < x_min:
+        xc = x_min + 1
+    return xc
+
+
+def mass_generate(items_xywh, W, H, x_tol, y_tol, max_mass):
+    xci = [x + w / 2 for x,y,w,h in items_xywh]
+    yci = [y + h / 2 for x,y,w,h in items_xywh]
+    
+    xc = bound_mean(xci, W / 2 - x_tol, W / 2 + x_tol)  
+    yc = bound_mean(yci, H / 2 - y_tol, H / 2 + y_tol) 
+    
+    mass_2end = [random.randint(1,5) for _ in range(len(items_xywh) - 2)]
+    smx_2end = sum([m * x for m, x in zip(mass_2end, xci[2:])])
+    smy_2end = sum([m * y for m, y in zip(mass_2end, yci[2:])])
+    sm_2end = sum(mass_2end)
+
+    bx = xc * sm_2end - smx_2end
+    by = yc * sm_2end - smy_2end
+
+    ax0 = xci[0] - xc
+    ax1 = xci[1] - xc
+
+    ay0 = yci[0] - yc
+    ay1 = yci[1] - yc
+    
+    # ax0 * m0 + ax1 * m1 = bx
+    # ay0 * m0 + ay1 * m1 = by
+    delta = ax0 * ay1 - ay0 * ax1
+    m0 = (bx * ay1 - by * ax1) / delta
+    m1 = (ax0 * by - ay0 * bx) / delta
+    
+    if m0 <= 0 or m1 <= 0:
+        return
+    mass = [m0, m1] + mass_2end
+    
+    #check
+    xc_check = sum([m * x for m, x in zip(mass, xci)]) / sum(mass)
+    yc_check = sum([m * y for m, y in zip(mass, yci)]) / sum(mass)
+    assert abs(xc - xc_check) < 1e-3
+    assert abs(yc - yc_check) < 1e-3
+    
+    return mass
     
     
