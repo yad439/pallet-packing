@@ -2,7 +2,7 @@ from typing import Union
 
 
 class Item:
-    def __init__(self, width: int, height: int, mass: Union[int, None] = None):
+    def __init__(self, width: int, height: int, mass: Union[int, float, None] = None):
         self.width = width
         self.height = height
         self.mass = mass
