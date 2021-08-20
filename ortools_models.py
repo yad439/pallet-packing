@@ -52,7 +52,7 @@ def task_two_model(pallet_width: int, pallet_height: int, items: List[Item], x_t
         solver.Add(cx[i] <= x[i] + w[i] / 2 * (1 - r[i]) + h[i] / 2 * r[i])
         solver.Add(cy[i] <= y[i] + h[i] / 2 * (1 - r[i]) + w[i] / 2 * r[i])
         solver.Add(cx[i] >= x[i] + w[i] / 2 * (1 - r[i]) + h[i] / 2 * r[i] - big_num * (1 - z[i]))
-        solver.Add(cx[i] >= y[i] + h[i] / 2 * (1 - r[i]) + w[i] / 2 * r[i] - big_num * (1 - z[i]))
+        solver.Add(cy[i] >= y[i] + h[i] / 2 * (1 - r[i]) + w[i] / 2 * r[i] - big_num * (1 - z[i]))
         for j in range(n):
             if i != j:
                 solver.Add(sum(items[i].mass * cx[i] for i in range(n)) <= (pallet_width / 2 + x_tolerance) * sum(
