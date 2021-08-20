@@ -18,4 +18,16 @@ data/random_mass/guillotine_max_100_0.txt,395.7883486339997
 data/random_mass/random_10_1.txt,300.3566288510001
 data/random_mass/random_20_1.txt,300.9864495669999
 data/random_mass/random_50_1.txt,310.9659184310003
-data/random_mass/random_100_1.txt,393.87764161500036
+data/random_mass/random_100_1.txt,393.8776416150004
+data/random_mass/guillotine_rand_5_0-1.csv,1.357199909000002
+data/random_mass/guillotine_equal_5_0-1.csv,0.8436006649999968
+data/random_mass/guillotine_max_5_0-1.csv,0.0531084280000015
+data/random_mass/guillotine_rand_10_0-1.csv,2.686785578999995
+data/random_mass/guillotine_equal_10_0-1.csv,1.3932701129999998
+data/random_mass/guillotine_max_10_0-1.csv,0.3997097949999997
+data/random_mass/guillotine_rand_50_0-1.csv,311.442452472
+data/random_mass/guillotine_equal_50_0-1.csv,313.2191556810001
+data/random_mass/guillotine_max_50_0-1.csv,312.850541431
+data/random_mass/random_5_0-1.csv,0.1148895700000594
+data/random_mass/random_10_0-1.csv,227.99772839599996
+data/random_mass/random_50_0-1.csv,311.0000204800001

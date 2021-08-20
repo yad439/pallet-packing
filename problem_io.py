@@ -20,6 +20,6 @@ def load_instance(path: str) -> Tuple[int, int, List[Item]]:
         for line in file:
             if not line or line.isspace():
                 continue
-            itm = list(map(int, line.split('\t')))
-            items.append(Item(*itm))
+            itm = line.split('\t')
+            items.append(Item(int(itm[0]), int(itm[1]), float(itm[2])))
         return pallet_width, pallet_height, items
